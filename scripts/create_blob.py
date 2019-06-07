@@ -6,10 +6,10 @@
 #
 # Author: Tim Silhan
 
+import os
 import sys
 import zlib
 from hashlib import sha1
-from run_commands import run_command
 
 content = 'Hello World\n'
 if len(sys.argv) > 1:
@@ -31,6 +31,6 @@ print('File:', digest[2:])
 compressed = zlib.compress(store.encode('utf-8'))
 print('\nCompressed:', compressed)
 
-run_command(f'mkdir -p .git/objects/{digest[:2]}')
+os.makedirs(os.path.dirname(f'.git/objects/{digest[:2]}/'))
 with open(f'.git/objects/{digest[:2]}/{digest[2:]}', 'wb') as blob:
     blob.write(compressed)

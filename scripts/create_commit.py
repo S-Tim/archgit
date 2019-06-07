@@ -20,11 +20,11 @@
 #
 # Author: Tim Silhan
 
+import os
 import sys
 import zlib
 import time
 from hashlib import sha1
-from run_commands import run_command
 
 # Hash of the tree from create_tree
 ref_hash = '97b49d4c943e3715fe30f141cc6f27a8548cee0e'
@@ -53,7 +53,6 @@ content += f'\nauthor {author_name} <{author_email}> {seconds_since_epoch} {time
 content += f'\ncommitter {author_name} <{author_email}> {seconds_since_epoch} {time_zone}'
 content += f'\n\n{commit_message}'
 content = f'tree {ref_hash}' + content
-# content = b'tree ' + bytes.fromhex(ref_hash) + content.encode('utf-8')
 print('Content:\n', content)
 
 header = f'commit {len(content)}\u0000'
@@ -70,6 +69,6 @@ print('File:', digest[2:])
 compressed = zlib.compress(store)
 print('Compressed:', compressed)
 
-run_command(f'mkdir -p .git/objects/{digest[:2]}')
-with open(f'.git/objects/{digest[:2]}/{digest[2:]}', 'wb') as blob:
-    blob.write(compressed)
+os.makedirs(os.path.dirname(f'.git/objects/{digest[:2]}/'))
+with open(f'.git/objects/{digest[:2]}/{digest[2:]}', 'wb') as commit:
+    commit.write(compressed)
