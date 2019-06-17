@@ -28,7 +28,7 @@ content = b"100644 " + filename.encode('utf-8') + b"\x00" + bytes.fromhex(ref_ha
 # Create a directory with a tree object
 # content = b"40000 " + filename.encode('utf-8') + b"\x00" + bytes.fromhex(ref_hash)
 
-header = f'tree {len(content)}\u0000'
+header = f'tree {len(content)}\x00'
 print('Header:', header)
 
 store = header.encode('utf-8') + content

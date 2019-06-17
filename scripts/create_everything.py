@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
-# This script is a reference for a live presenatation.
+# This script is a all-in-one script.
 # It includes the the create_blob, create_tree and create_commit functionality.
 # 
 # Author: Tim Silhan
 
 import os
-import sys
 import zlib
 import time
 from hashlib import sha1
@@ -18,7 +17,7 @@ print("-----------------------")
 blob_content = 'Hello World\n'
 print('Input: ', blob_content)
 
-blob_header = f'blob {len(blob_content)}\u0000'
+blob_header = f'blob {len(blob_content)}\x00'
 print('Header:', blob_header)
 
 blob_store = blob_header + blob_content
@@ -50,7 +49,7 @@ tree_content = b"100644 " + tree_filename.encode('utf-8') + b"\x00" + bytes.from
 # Create a directory with a tree object
 # content = b"40000 " + filename.encode('utf-8') + b"\x00" + bytes.fromhex(ref_hash)
 
-tree_header = f'tree {len(tree_content)}\u0000'
+tree_header = f'tree {len(tree_content)}\x00'
 print('Header:', tree_header)
 
 tree_store = tree_header.encode('utf-8') + tree_content
@@ -87,16 +86,15 @@ seconds_since_epoch = int(time.time())
 time_zone = '+0000'
 commit_message = 'This is it! We made it!\n'
 
-commit_content = ''
+commit_content = f'tree {tree_digest}'
 if parent_hash:
     commit_content += f'\nparent {parent_hash}'
 commit_content += f'\nauthor {author_name} <{author_email}> {seconds_since_epoch} {time_zone}'
 commit_content += f'\ncommitter {author_name} <{author_email}> {seconds_since_epoch} {time_zone}'
 commit_content += f'\n\n{commit_message}'
-commit_content = f'tree {tree_digest}' + commit_content
 print('Content:\n', commit_content)
 
-commit_header = f'commit {len(commit_content)}\u0000'
+commit_header = f'commit {len(commit_content)}\x00'
 print('Header:', commit_header)
 
 commit_store = commit_header.encode('utf-8') + commit_content.encode('utf-8')

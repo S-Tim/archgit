@@ -17,7 +17,7 @@ if len(sys.argv) > 1:
 
 print('Input: ', content)
 
-header = f'blob {len(content)}\u0000'
+header = f'blob {len(content)}\x00'
 print('Header:', header)
 
 store = header + content

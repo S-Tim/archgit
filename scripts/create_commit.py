@@ -46,16 +46,15 @@ seconds_since_epoch = int(time.time())
 time_zone = '+0000'
 commit_message = 'This is it! We made it!\n'
 
-content = ''
+content = f'tree {ref_hash}'
 if parent_hash:
     content += f'\nparent {parent_hash}'
 content += f'\nauthor {author_name} <{author_email}> {seconds_since_epoch} {time_zone}'
 content += f'\ncommitter {author_name} <{author_email}> {seconds_since_epoch} {time_zone}'
 content += f'\n\n{commit_message}'
-content = f'tree {ref_hash}' + content
 print('Content:\n', content)
 
-header = f'commit {len(content)}\u0000'
+header = f'commit {len(content)}\x00'
 print('Header:', header)
 
 store = header.encode('utf-8') + content.encode('utf-8')
