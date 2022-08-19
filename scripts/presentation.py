@@ -3,6 +3,14 @@
 # 
 # Author: Tim Silhan
 
+# git init -q ./bloated
+# tree ./bloated/.git/
+# rm -rf ./bloated
+
+# mkdir -p basicrepo/.git/refs/heads
+# mkdir -p basicrepo/.git/objects
+# echo "ref: refs/heads/master" >> ./basicrepo/.git/HEAD
+
 import os
 import zlib
 import time
@@ -69,3 +77,7 @@ commit_file = commit_dir + commit_digest[2:]
 os.makedirs(os.path.dirname(commit_dir))
 with open(commit_file, 'wb') as commit:
     commit.write(commit_compressed)
+
+# echo [sha1] > basicrepo/.git/refs/heads/custom-branch
+# git branch
+# git switch custom-branch
