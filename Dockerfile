@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook
+FROM quay.io/jupyter/minimal-notebook
 
 USER root
 RUN apt-get update && apt-get install -yq tree && rm -rf /var/lib/apt/lists/*
